@@ -1,11 +1,14 @@
 package com.felipe.netflixremake.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class Movie {
 
     private int coverUrl;
+
+    public int getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(int coverUrl) {
+        this.coverUrl = coverUrl;
+    }
 }
