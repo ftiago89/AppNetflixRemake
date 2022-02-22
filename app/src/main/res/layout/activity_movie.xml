@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     tools:context=".MovieActivity">
 
     <ImageView
@@ -42,11 +43,69 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Textview"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/image_view_cover"
-        app:layout_constraintStart_toStartOf="@id/image_view_cover" />
+        app:layout_constraintStart_toStartOf="@id/image_view_cover"
+        tools:text="Textview" />
+
+    <TextView
+        android:id="@+id/text_view_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="48dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="3sp"
+        android:maxLines="3"
+        android:textColor="@color/lighter_gray"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_view_cover"
+        tools:text="Superheroes amass to combat huahushfahfdshfkh fdhhflsha sfa hfds fhlsahf sda ahuifh aifashiufhsulfa hsflahfudsah fusdlahfuiashfl sahiufsdhaufihaiufhaslfh s hf hasuf haufhilashfisahflia" />
+
+    <TextView
+        android:id="@+id/text_view_cast"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="48dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="3sp"
+        android:maxLines="3"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_desc"
+        tools:text="Superheroes amass to combat huahushfahfdshfkh fdhhflsha sfa hfds fhlsahf sda ahuifh aifashiufhsulfa hsflahfudsah fusdlahfuiashfl sahiufsdhaufihaiufhaslfh s hf hasuf haufhilashfisahflia" />
+
+    <TextView
+        android:id="@+id/text_view_similar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/similar"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_cast" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_similar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_similar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
