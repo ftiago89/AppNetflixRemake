@@ -14,12 +14,12 @@ import android.widget.TextView;
 import com.felipe.netflixremake.model.Category;
 import com.felipe.netflixremake.model.Movie;
 import com.felipe.netflixremake.util.Constants;
-import com.felipe.netflixremake.util.JsonDownloadTask;
+import com.felipe.netflixremake.util.CategoryTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CategoryTask.CategoryLoader {
 
     private MainAdapter mainAdapter;
 
@@ -29,25 +29,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_main);
-        List<Movie> movies = new ArrayList<>();
-
         List<Category> categories = new ArrayList<>();
-        for (int j = 0; j < 10; j++) {
-            Category category = new Category();
-            category.setName("cat" + j);
-            for (int i = 0; i < 30; i++) {
-                Movie movie = new Movie();
-                movies.add(movie);
-            }
-            category.setMovies(movies);
-            categories.add(category);
-        }
 
         mainAdapter = new MainAdapter(categories);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(mainAdapter);
 
-        new JsonDownloadTask(this).execute(Constants.CATEGORY_URL);
+        CategoryTask categoryTask = new CategoryTask(this);
+        categoryTask.setCategoryLoader(this);
+        categoryTask.execute(Constants.CATEGORY_URL);
+    }
+
+    @Override
+    public void onResult(List<Category> categories) {
+        mainAdapter.setCategories(categories);
+        mainAdapter.notifyDataSetChanged();
     }
 
     private static class MovieHolder extends RecyclerView.ViewHolder {
@@ -96,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return categories.size();
+        }
+
+        public void setCategories(List<Category> categories) {
+            this.categories.clear();
+            this.categories.addAll(categories);
         }
     }
 
