@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.felipe.netflixremake.model.Category;
 import com.felipe.netflixremake.model.Movie;
 import com.felipe.netflixremake.util.Constants;
 import com.felipe.netflixremake.util.CategoryTask;
+import com.felipe.netflixremake.util.ImageTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +119,11 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         @Override
         public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
             Movie movie = movies.get(position);
+
+            ImageTask imageTask = new ImageTask(holder.imageViewCover);
+            imageTask.execute(movie.getCoverUrl());
+
+            holder.imageViewCover.setImageBitmap(movie.getMovieImage());
         }
 
         @Override
