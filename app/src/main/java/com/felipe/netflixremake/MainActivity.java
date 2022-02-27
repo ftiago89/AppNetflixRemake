@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.felipe.netflixremake.model.Category;
 import com.felipe.netflixremake.model.Movie;
+import com.felipe.netflixremake.util.Constants;
+import com.felipe.netflixremake.util.JsonDownloadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter = new MainAdapter(categories);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(mainAdapter);
+
+        new JsonDownloadTask(this).execute(Constants.CATEGORY_URL);
     }
 
     private static class MovieHolder extends RecyclerView.ViewHolder {
