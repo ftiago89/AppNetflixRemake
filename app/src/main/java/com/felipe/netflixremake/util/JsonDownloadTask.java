@@ -1,7 +1,9 @@
 package com.felipe.netflixremake.util;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.ProgressBar;
 
 import com.felipe.netflixremake.model.Category;
 import com.felipe.netflixremake.model.Movie;
@@ -14,6 +16,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +25,20 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class JsonDownloadTask extends AsyncTask<String, Void, List<Category>> {
 
-    private final Context context;
+    private final WeakReference<Context> context;
+    private ProgressDialog dialog;
 
     public JsonDownloadTask(Context context) {
-        this.context = context;
+        this.context = new WeakReference<>(context);
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        Context context = this.context.get();
 
+        if (context != null)
+            dialog = ProgressDialog.show(context, "Carregando", "", true);
     }
 
     @Override
@@ -66,6 +73,7 @@ public class JsonDownloadTask extends AsyncTask<String, Void, List<Category>> {
     @Override
     protected void onPostExecute(List<Category> categories) {
         super.onPostExecute(categories);
+        this.dialog.dismiss();
     }
 
     private List<Category> getCategories(JSONObject json) throws JSONException {
