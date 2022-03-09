@@ -122,8 +122,6 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
 
             ImageTask imageTask = new ImageTask(holder.imageViewCover);
             imageTask.execute(movie.getCoverUrl());
-
-            holder.imageViewCover.setImageBitmap(movie.getMovieImage());
         }
 
         @Override
