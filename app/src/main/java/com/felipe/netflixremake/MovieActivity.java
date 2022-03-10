@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.felipe.netflixremake.model.Movie;
+import com.felipe.netflixremake.util.Constants;
+import com.felipe.netflixremake.util.MovieDetailTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,13 @@ public class MovieActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(new MovieAdapter(movies));
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            int id = (int) extras.get("id");
+            new MovieDetailTask(this).execute(Constants.MOVIE_DETAIL_BASE_URL + id);
+        }
     }
 
     private static class MovieHolder extends RecyclerView.ViewHolder {
