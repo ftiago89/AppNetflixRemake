@@ -13,18 +13,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.felipe.netflixremake.model.Movie;
+import com.felipe.netflixremake.model.MovieDetail;
 import com.felipe.netflixremake.util.Constants;
+import com.felipe.netflixremake.util.ImageTask;
 import com.felipe.netflixremake.util.MovieDetailTask;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MovieActivity extends AppCompatActivity {
+public class MovieActivity extends AppCompatActivity implements MovieDetailTask.MovieDetailLoader {
 
     private RecyclerView recyclerView;
+    private TextView txtTitle;
+    private TextView txtDesc;
+    private TextView txtCast;
+    private MovieAdapter movieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,9 @@ public class MovieActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie);
 
         recyclerView = findViewById(R.id.recycler_view_similar);
+        txtTitle = findViewById(R.id.text_view_title);
+        txtDesc = findViewById(R.id.text_view_desc);
+        txtCast = findViewById(R.id.text_view_cast);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -46,20 +56,28 @@ public class MovieActivity extends AppCompatActivity {
                 (LayerDrawable) ContextCompat.getDrawable(this,R.drawable.movie_shadows);
 
         List<Movie> movies = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            Movie movie = new Movie();
-            movies.add(movie);
-        }
-
-        recyclerView.setAdapter(new MovieAdapter(movies));
+        movieAdapter = new MovieAdapter(movies);
+        recyclerView.setAdapter(movieAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             int id = (int) extras.get("id");
-            new MovieDetailTask(this).execute(Constants.MOVIE_DETAIL_BASE_URL + id);
+            MovieDetailTask movieDetailTask = new MovieDetailTask(this);
+            movieDetailTask.setMovieDetailLoader(this);
+            movieDetailTask.execute(Constants.MOVIE_DETAIL_BASE_URL + id);
         }
+    }
+
+    @Override
+    public void onResponse(MovieDetail movieDetail) {
+        this.txtTitle.setText(movieDetail.getMovie().getTitle());
+        this.txtDesc.setText(movieDetail.getMovie().getDesc());
+        this.txtCast.setText(movieDetail.getMovie().getCast());
+
+        movieAdapter.setMovies(movieDetail.getSimilarMovies());
+        movieAdapter.notifyDataSetChanged();
     }
 
     private static class MovieHolder extends RecyclerView.ViewHolder {
@@ -74,9 +92,14 @@ public class MovieActivity extends AppCompatActivity {
 
     private class MovieAdapter extends RecyclerView.Adapter<MovieActivity.MovieHolder> {
 
-        private final List<Movie> movies;
+        private List<Movie> movies;
 
         public MovieAdapter(List<Movie> movies) {
+            this.movies = movies;
+        }
+
+        public void setMovies(List<Movie> movies) {
+            this.movies.clear();
             this.movies = movies;
         }
 
@@ -89,6 +112,7 @@ public class MovieActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull MovieActivity.MovieHolder holder, int position) {
             Movie movie = movies.get(position);
+            new ImageTask(holder.imageViewCover).execute(movie.getCoverUrl());
         }
 
         @Override

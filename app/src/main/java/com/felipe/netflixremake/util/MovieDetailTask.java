@@ -32,6 +32,10 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
         this.context = new WeakReference<>(context);
     }
 
+    public void setMovieDetailLoader(MovieDetailLoader movieDetailLoader) {
+        this.movieDetailLoader = movieDetailLoader;
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
