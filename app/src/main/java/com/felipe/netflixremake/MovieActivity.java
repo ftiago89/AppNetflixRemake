@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
     private TextView txtDesc;
     private TextView txtCast;
     private MovieAdapter movieAdapter;
+    private ImageView imgCover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
         txtTitle = findViewById(R.id.text_view_title);
         txtDesc = findViewById(R.id.text_view_desc);
         txtCast = findViewById(R.id.text_view_cast);
+        imgCover = findViewById(R.id.image_view_cover);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,10 +74,22 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onResponse(MovieDetail movieDetail) {
         this.txtTitle.setText(movieDetail.getMovie().getTitle());
         this.txtDesc.setText(movieDetail.getMovie().getDesc());
         this.txtCast.setText(movieDetail.getMovie().getCast());
+
+        ImageTask imageTask = new ImageTask(imgCover);
+        imageTask.setShadowsEnabled(true);
+        imageTask.execute(movieDetail.getMovie().getCoverUrl());
 
         movieAdapter.setMovies(movieDetail.getSimilarMovies());
         movieAdapter.notifyDataSetChanged();
