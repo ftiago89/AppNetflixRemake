@@ -1,4 +1,4 @@
-package com.felipe.netflixremake.kotlin
+package com.felipe.netflixremake
 
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
@@ -17,7 +17,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.request.target.Target
-import com.felipe.netflixremake.R
 import com.felipe.netflixremake.model.Movie
 import com.felipe.netflixremake.model.MovieDetail
 import kotlinx.android.synthetic.main.activity_movie.*

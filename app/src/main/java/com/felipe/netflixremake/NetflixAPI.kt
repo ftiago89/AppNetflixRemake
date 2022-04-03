@@ -1,4 +1,4 @@
-package com.felipe.netflixremake.kotlin
+package com.felipe.netflixremake
 
 import com.felipe.netflixremake.model.Categories
 import com.felipe.netflixremake.model.MovieDetail

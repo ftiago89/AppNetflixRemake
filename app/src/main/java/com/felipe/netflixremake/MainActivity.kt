@@ -1,4 +1,4 @@
-package com.felipe.netflixremake.kotlin
+package com.felipe.netflixremake
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.felipe.netflixremake.R
 import com.felipe.netflixremake.model.Categories
 import com.felipe.netflixremake.model.Category
 import com.felipe.netflixremake.model.Movie
